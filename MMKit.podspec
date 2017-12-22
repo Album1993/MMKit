@@ -5,15 +5,15 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.authors      = { 'zhangyiming' => 'ymzhangvip@gmail.com' }
   s.social_media_url = 'https://www.jianshu.com/u/6c46e1ac4ee0'
-  s.homepage     = ''
+  s.homepage     = 'https://github.com/Album1993/MMKit'
   s.platform     = :ios, '8.0'
   s.ios.deployment_target = '8.0'
-  s.source       = { :git => '', :tag => s.version.to_s }
+  s.source       = { :git => 'https://github.com/Album1993/MMKit.git', :tag => s.version.to_s }
 
   s.requires_arc = true
   s.source_files = 'MMKit/*.{h,m}'
   s.public_header_files = 'MMKit/*.{h}'
 
-  s.frameworks = 'UIKit', 'CoreFoundation', 'QuartzCore' 
+  s.frameworks = 'UIKit', 'CoreFoundation', 'QuartzCore'
 
 end
