@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
     ss.public_header_files  = 'MMKit/FileKit/MM*.h'
   end
 
-  s.subspec 'CLI' do |ss|
+  s.subspec 'DebugKit' do |ss|
     ss.source_files         = 'MMKit/DebugKit/MM*.{h,m}'
     ss.public_header_files  = 'MMKit/DebugKit/MM*.h'
   end
