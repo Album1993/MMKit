@@ -6,15 +6,12 @@
 //  Copyright © 2017年 张一鸣. All rights reserved.
 //
 
-
+#import "MMKit.h"
 #ifndef MMLife_h
 #define MMLife_h
 
 #import <Foundation/Foundation.h>
-#import "MMDebug.h"
-
 static void objectCleanUp(__strong NSObject ** object) {
-    MMDebug(@"%@",object);
 }
 
 static void blockCleanUp(__strong void(^*block)(void)) {
