@@ -39,7 +39,7 @@
     return imsi;
 }
 
-+ (NSString *)languages {
++ (NSString *)language {
     return [[NSLocale preferredLanguages] firstObject];
 }
 

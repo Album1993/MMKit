@@ -17,7 +17,7 @@
 
 + (NSString *)IMSI;
 
-+ (NSString *)languages;
++ (NSString *)language;
 
 + (NSString *)os_version;
 
