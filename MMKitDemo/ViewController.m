@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    MMLog(@"11:%@",[MMDeviceInformation UDID]);
+    MMLog(@"11:%@",[MMDeviceInformation UUID]);
 }
 
 

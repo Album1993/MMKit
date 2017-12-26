@@ -20,6 +20,7 @@
 		FC88F3DA1FED0DBE00D09F8E /* MMFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FC88F3D21FED0DBE00D09F8E /* MMFileReader.m */; };
 		FC88F3DB1FED0DBE00D09F8E /* MMFileArchieve.m in Sources */ = {isa = PBXBuildFile; fileRef = FC88F3D41FED0DBE00D09F8E /* MMFileArchieve.m */; };
 		FC88F3DC1FED0DBE00D09F8E /* MMFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC88F3D51FED0DBE00D09F8E /* MMFileManager.m */; };
+		FCB411051FF2361C00EC5D40 /* DeviceInformationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB411041FF2361C00EC5D40 /* DeviceInformationTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		FC88F3D51FED0DBE00D09F8E /* MMFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFileManager.m; sourceTree = "<group>"; };
 		FC88F3D71FED0DBE00D09F8E /* MMDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDebug.h; sourceTree = "<group>"; };
 		FC88F3DD1FED0DE700D09F8E /* MMKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMKit.h; sourceTree = "<group>"; };
+		FCB411041FF2361C00EC5D40 /* DeviceInformationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInformationTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 			children = (
 				FC88F3AA1FECFB9B00D09F8E /* MMKitDemoTests.m */,
 				FC88F3AC1FECFB9B00D09F8E /* Info.plist */,
+				FCB411041FF2361C00EC5D40 /* DeviceInformationTests.m */,
 			);
 			path = MMKitDemoTests;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCB411051FF2361C00EC5D40 /* DeviceInformationTests.m in Sources */,
 				FC88F3AB1FECFB9B00D09F8E /* MMKitDemoTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
