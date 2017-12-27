@@ -21,6 +21,8 @@
 		FC88F3DB1FED0DBE00D09F8E /* MMFileArchieve.m in Sources */ = {isa = PBXBuildFile; fileRef = FC88F3D41FED0DBE00D09F8E /* MMFileArchieve.m */; };
 		FC88F3DC1FED0DBE00D09F8E /* MMFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC88F3D51FED0DBE00D09F8E /* MMFileManager.m */; };
 		FCB411051FF2361C00EC5D40 /* DeviceInformationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB411041FF2361C00EC5D40 /* DeviceInformationTests.m */; };
+		FCB4110E1FF2499900EC5D40 /* NSString+MMString.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB4110D1FF2499900EC5D40 /* NSString+MMString.m */; };
+		FCB411131FF24E6D00EC5D40 /* NSkitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB411121FF24E6D00EC5D40 /* NSkitTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,9 @@
 		FC88F3D71FED0DBE00D09F8E /* MMDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDebug.h; sourceTree = "<group>"; };
 		FC88F3DD1FED0DE700D09F8E /* MMKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMKit.h; sourceTree = "<group>"; };
 		FCB411041FF2361C00EC5D40 /* DeviceInformationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInformationTests.m; sourceTree = "<group>"; };
+		FCB4110C1FF2499900EC5D40 /* NSString+MMString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+MMString.h"; sourceTree = "<group>"; };
+		FCB4110D1FF2499900EC5D40 /* NSString+MMString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+MMString.m"; sourceTree = "<group>"; };
+		FCB411121FF24E6D00EC5D40 /* NSkitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSkitTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +146,7 @@
 				FC88F3AA1FECFB9B00D09F8E /* MMKitDemoTests.m */,
 				FC88F3AC1FECFB9B00D09F8E /* Info.plist */,
 				FCB411041FF2361C00EC5D40 /* DeviceInformationTests.m */,
+				FCB411121FF24E6D00EC5D40 /* NSkitTests.m */,
 			);
 			path = MMKitDemoTests;
 			sourceTree = "<group>";
@@ -157,6 +163,7 @@
 		FC88F3C71FED0DBE00D09F8E /* MMKit */ = {
 			isa = PBXGroup;
 			children = (
+				FCB4110B1FF2497A00EC5D40 /* NSKit */,
 				FC88F3C81FED0DBE00D09F8E /* DeviceKit */,
 				FC88F3CB1FED0DBE00D09F8E /* LifeKit */,
 				FC88F3CD1FED0DBE00D09F8E /* FileKit */,
@@ -204,6 +211,15 @@
 				FC88F3D71FED0DBE00D09F8E /* MMDebug.h */,
 			);
 			path = DebugKit;
+			sourceTree = "<group>";
+		};
+		FCB4110B1FF2497A00EC5D40 /* NSKit */ = {
+			isa = PBXGroup;
+			children = (
+				FCB4110C1FF2499900EC5D40 /* NSString+MMString.h */,
+				FCB4110D1FF2499900EC5D40 /* NSString+MMString.m */,
+			);
+			path = NSKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC88F3DA1FED0DBE00D09F8E /* MMFileReader.m in Sources */,
+				FCB4110E1FF2499900EC5D40 /* NSString+MMString.m in Sources */,
 				FC88F3D81FED0DBE00D09F8E /* MMDeviceInformation.m in Sources */,
 				FC88F3961FECFB9B00D09F8E /* ViewController.m in Sources */,
 				FC88F3A11FECFB9B00D09F8E /* main.m in Sources */,
@@ -354,6 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCB411131FF24E6D00EC5D40 /* NSkitTests.m in Sources */,
 				FCB411051FF2361C00EC5D40 /* DeviceInformationTests.m in Sources */,
 				FC88F3AB1FECFB9B00D09F8E /* MMKitDemoTests.m in Sources */,
 			);
