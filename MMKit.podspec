@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.public_header_files = 'MMKit/MMKit.h'
   s.source_files         = 'MMKit/MMKit.h'
 
-  s.default_subspecs = 'DeviceKit', 'LifeKit','FileKit','DebugKit'
+  s.default_subspecs = 'DeviceKit', 'LifeKit','FileKit','DebugKit','NSKit'
 
   s.subspec 'DeviceKit' do |ss|
     ss.source_files         = 'MMKit/DeviceKit/MM*.{h,m}', 'Classes/MM*.{h,m}'
