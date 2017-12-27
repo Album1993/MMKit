@@ -34,6 +34,9 @@
     NSString *mcc = [carrier mobileCountryCode];
     NSString *mnc = [carrier mobileNetworkCode];
     
+    if (mcc == nil || mcc.length == 0 || mnc == nil || mnc.length == 0) {
+        return nil;
+    }
     NSString *imsi = [NSString stringWithFormat:@"%@%@", mcc, mnc];
     
     return imsi;

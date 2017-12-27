@@ -11,11 +11,11 @@
 @implementation NSString (MMString)
 
 - (NSString *)mm_appendJson:(NSString *)string {
-    NSString *jsonString=@"";
+    NSString *jsonString=@"{";
     NSString *key;
     NSError * error ;
     NSDictionary * jsonData1 = [self mm_transJson:error];
-
+    
     if (error) {
 #if DEBUG
         NSLog(@"%@",[error localizedDescription]);
@@ -30,14 +30,15 @@
     
     for(key in [jsonData1 allKeys])
     {
-        jsonString = [jsonString stringByAppendingFormat:@"%@=%@,",key,[jsonData1 objectForKey:key]];
+        jsonString = [jsonString stringByAppendingFormat:@"\"%@\"=\"%@\",",key,[jsonData1 objectForKey:key]];
     }
     
     for(key in [jsonData2 allKeys])
     {
-        jsonString = [jsonString stringByAppendingFormat:@"%@=%@,",key,[jsonData2 objectForKey:key]];
+        jsonString = [jsonString stringByAppendingFormat:@"\"%@\"=\"%@\",",key,[jsonData2 objectForKey:key]];
     }
     jsonString = [jsonString substringToIndex:[jsonString length] - 1];
+    jsonString = [jsonString stringByAppendingString:@"}"];
     
     return jsonString;
 }
@@ -46,4 +47,5 @@
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:[self dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
     return dictionary;
 }
+
 @end
