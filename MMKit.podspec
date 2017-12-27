@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = 'MMKit'
   s.summary      = 'common utils for ios.'
-  s.version      = '1.0.4'
+  s.version      = '1.0.5'
   s.authors      = { 'zhangyiming' => 'ymzhangvip@gmail.com' }
   s.social_media_url = 'https://www.jianshu.com/u/6c46e1ac4ee0'
   s.homepage     = 'https://github.com/Album1993/MMKit'
@@ -33,6 +33,11 @@ Pod::Spec.new do |s|
   s.subspec 'DebugKit' do |ss|
     ss.source_files         = 'MMKit/DebugKit/MM*.{h,m}'
     ss.public_header_files  = 'MMKit/DebugKit/MM*.h'
+  end
+
+  s.subspec 'NSKit' do |ss|
+    ss.source_files         = 'MMKit/NSKit/*.{h,m}'
+    ss.public_header_files  = 'MMKit/NSKit/*.h'
   end
 
   s.frameworks = 'UIKit', 'CoreFoundation', 'QuartzCore','CoreTelephony','CoreLocation'

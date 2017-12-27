@@ -17,5 +17,7 @@
 
 #import "MMDeviceInformation.h"
 
+#import "NSString+MMString.h"
+
 #import "MMDebug.h"
 #endif /* MMKit_h */
