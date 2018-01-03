@@ -30,12 +30,12 @@
     
     for(key in [jsonData1 allKeys])
     {
-        jsonString = [jsonString stringByAppendingFormat:@"\"%@\":\"%@\"",key,[jsonData1 objectForKey:key]];
+        jsonString = [jsonString stringByAppendingFormat:@"\"%@\":\"%@\";",key,[jsonData1 objectForKey:key]];
     }
     
     for(key in [jsonData2 allKeys])
     {
-        jsonString = [jsonString stringByAppendingFormat:@"\"%@\":\"%@\"",key,[jsonData2 objectForKey:key]];
+        jsonString = [jsonString stringByAppendingFormat:@"\"%@\":\"%@\";",key,[jsonData2 objectForKey:key]];
     }
     jsonString = [jsonString substringToIndex:[jsonString length] - 1];
     jsonString = [jsonString stringByAppendingString:@"}"];
