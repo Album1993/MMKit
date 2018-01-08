@@ -15,6 +15,6 @@
 
 -(NSDictionary *)mm_transJson:(NSError *)error;
 
--(BOOL)mm_isEmptyString:(NSString *) string;
+-(BOOL)mm_isEmptyString;
 
 @end
