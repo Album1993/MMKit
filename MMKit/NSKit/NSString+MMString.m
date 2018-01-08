@@ -48,4 +48,16 @@
     return dictionary;
 }
 
+- (BOOL)mm_isEmptyString {
+    if([self length] == 0) { //string isempty or nil
+        return YES;
+    }
+    else if([[self stringByTrimmingCharactersInSet:[NSCharacterSet
+                                                     whitespaceCharacterSet]]length] == 0) {
+        //string is all whitespace
+        return YES;
+    }
+    return NO;
+}
+
 @end
