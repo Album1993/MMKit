@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = 'MMKit'
   s.summary      = 'common utils for ios.'
-  s.version      = '1.0.17'
+  s.version      = '1.0.18'
   s.authors      = { 'zhangyiming' => 'ymzhangvip@gmail.com' }
   s.social_media_url = 'https://www.jianshu.com/u/6c46e1ac4ee0'
   s.homepage     = 'https://github.com/Album1993/MMKit'
