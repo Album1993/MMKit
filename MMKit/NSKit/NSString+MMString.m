@@ -60,4 +60,9 @@
     return NO;
 }
 
+- (id)mm_jsonObject:(NSError *)error {
+    id jsonobject = [NSJSONSerialization  JSONObjectWithData:[self dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+    return jsonobject;
+}
+
 @end

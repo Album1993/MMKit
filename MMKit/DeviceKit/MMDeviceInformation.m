@@ -145,4 +145,12 @@
     return  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 }
 
++ (NSUInteger)processesCount {
+    return MAX([NSProcessInfo processInfo].processorCount, (NSUInteger) 1);
+}
+
++ (NSString *)systemLanguage {
+    return [[NSLocale preferredLanguages] firstObject];
+}
+
 @end

@@ -27,4 +27,9 @@
 
 + (NSString *)appVersion;
 
+// 处理器数量
++ (NSUInteger)processesCount;
+
++ (NSString *)systemLanguage;
+
 @end

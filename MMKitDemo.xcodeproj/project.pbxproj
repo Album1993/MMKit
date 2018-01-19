@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC019127200755640069A3E0 /* MMRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FC019126200755640069A3E0 /* MMRuntime.m */; };
 		FC88F3931FECFB9B00D09F8E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FC88F3921FECFB9B00D09F8E /* AppDelegate.m */; };
 		FC88F3961FECFB9B00D09F8E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC88F3951FECFB9B00D09F8E /* ViewController.m */; };
 		FC88F3991FECFB9B00D09F8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC88F3971FECFB9B00D09F8E /* Main.storyboard */; };
@@ -43,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FC019125200755640069A3E0 /* MMRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMRuntime.h; sourceTree = "<group>"; };
+		FC019126200755640069A3E0 /* MMRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMRuntime.m; sourceTree = "<group>"; };
 		FC88F38E1FECFB9B00D09F8E /* MMKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MMKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC88F3911FECFB9B00D09F8E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FC88F3921FECFB9B00D09F8E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -126,16 +129,16 @@
 		FC88F3901FECFB9B00D09F8E /* MMKitDemo */ = {
 			isa = PBXGroup;
 			children = (
-				FC88F3C71FED0DBE00D09F8E /* MMKit */,
 				FC88F3911FECFB9B00D09F8E /* AppDelegate.h */,
 				FC88F3921FECFB9B00D09F8E /* AppDelegate.m */,
+				FC88F39A1FECFB9B00D09F8E /* Assets.xcassets */,
+				FC88F39F1FECFB9B00D09F8E /* Info.plist */,
+				FC88F39C1FECFB9B00D09F8E /* LaunchScreen.storyboard */,
+				FC88F3A01FECFB9B00D09F8E /* main.m */,
+				FC88F3971FECFB9B00D09F8E /* Main.storyboard */,
+				FC88F3C71FED0DBE00D09F8E /* MMKit */,
 				FC88F3941FECFB9B00D09F8E /* ViewController.h */,
 				FC88F3951FECFB9B00D09F8E /* ViewController.m */,
-				FC88F3971FECFB9B00D09F8E /* Main.storyboard */,
-				FC88F39A1FECFB9B00D09F8E /* Assets.xcassets */,
-				FC88F39C1FECFB9B00D09F8E /* LaunchScreen.storyboard */,
-				FC88F39F1FECFB9B00D09F8E /* Info.plist */,
-				FC88F3A01FECFB9B00D09F8E /* main.m */,
 			);
 			path = MMKitDemo;
 			sourceTree = "<group>";
@@ -186,6 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				FC88F3CC1FED0DBE00D09F8E /* MMLife.h */,
+				FC019125200755640069A3E0 /* MMRuntime.h */,
+				FC019126200755640069A3E0 /* MMRuntime.m */,
 			);
 			path = LifeKit;
 			sourceTree = "<group>";
@@ -193,14 +198,14 @@
 		FC88F3CD1FED0DBE00D09F8E /* FileKit */ = {
 			isa = PBXGroup;
 			children = (
-				FC88F3CE1FED0DBE00D09F8E /* MMFileReader.h */,
-				FC88F3CF1FED0DBE00D09F8E /* MMPath.m */,
 				FC88F3D01FED0DBE00D09F8E /* MMFileArchieve.h */,
+				FC88F3D41FED0DBE00D09F8E /* MMFileArchieve.m */,
 				FC88F3D11FED0DBE00D09F8E /* MMFileManager.h */,
+				FC88F3D51FED0DBE00D09F8E /* MMFileManager.m */,
+				FC88F3CE1FED0DBE00D09F8E /* MMFileReader.h */,
 				FC88F3D21FED0DBE00D09F8E /* MMFileReader.m */,
 				FC88F3D31FED0DBE00D09F8E /* MMPath.h */,
-				FC88F3D41FED0DBE00D09F8E /* MMFileArchieve.m */,
-				FC88F3D51FED0DBE00D09F8E /* MMFileManager.m */,
+				FC88F3CF1FED0DBE00D09F8E /* MMPath.m */,
 			);
 			path = FileKit;
 			sourceTree = "<group>";
@@ -363,6 +368,7 @@
 				FC88F3931FECFB9B00D09F8E /* AppDelegate.m in Sources */,
 				FC88F3D91FED0DBE00D09F8E /* MMPath.m in Sources */,
 				FC88F3DB1FED0DBE00D09F8E /* MMFileArchieve.m in Sources */,
+				FC019127200755640069A3E0 /* MMRuntime.m in Sources */,
 				FC88F3DC1FED0DBE00D09F8E /* MMFileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

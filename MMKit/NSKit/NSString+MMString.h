@@ -17,4 +17,6 @@
 
 -(BOOL)mm_isEmptyString;
 
+- (id)mm_jsonObject:(NSError *)error;
+
 @end

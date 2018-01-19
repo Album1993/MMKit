@@ -109,6 +109,23 @@
     return [[NSFileManager defaultManager] attributesOfItemAtPath:[self absolutePath:path] error:error];
 }
 
++(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary {
+    return [self copyItemAtPath:path toDirectory:toDictionary error:nil];
+}
+
++(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary error:(NSError **)error {
+    return [self copyItemAtPath:path toDirectory:toDictionary overwrite:NO error:error];
+}
+
++(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite {
+    return [self copyItemAtPath:path toDirectory:toDictionary overwrite:overwrite error:nil];
+}
+
++(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite error:(NSError **)error {
+    NSString * filename = [MMFileManager fileNameWithExtensionAtPath:path];
+    NSString * toPath = [toDictionary stringByAppendingPathComponent:filename];
+    return [self copyItemAtPath:path toDirectory:toPath overwrite:overwrite error:error];
+}
 
 +(BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath
 {
@@ -467,6 +484,23 @@
     return [NSArray arrayWithArray:absoluteSubpaths];
 }
 
++(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary {
+    return [self moveItemAtPath:path toDirectory:toDictionary error:nil];
+}
+
++(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary error:(NSError **)error {
+    return [self moveItemAtPath:path toDirectory:toDictionary overwrite:NO error:error];
+}
+
++(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite {
+    return [self moveItemAtPath:path toDirectory:toDictionary overwrite:overwrite error:nil];
+}
+
++(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite error:(NSError **)error {
+    NSString * filename = [MMFileManager fileNameWithExtensionAtPath:path];
+    NSString * toPath = [toDictionary stringByAppendingPathComponent:filename];
+    return [self moveItemAtPath:path toDirectory:toPath overwrite:overwrite error:error];
+}
 
 +(BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath
 {

@@ -17,6 +17,12 @@
 +(NSDictionary *)attributesOfItemAtPath:(NSString *)path;
 +(NSDictionary *)attributesOfItemAtPath:(NSString *)path error:(NSError **)error;
 
++(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary;
++(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary error:(NSError **)error;
+
++(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite;
++(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite error:(NSError **)error;
+
 +(BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath;
 +(BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath error:(NSError **)error;
 
@@ -81,6 +87,12 @@
 +(NSArray *)listFilesInDirectoryAtPath:(NSString *)path withSuffix:(NSString *)suffix deep:(BOOL)deep;
 
 +(NSArray *)listItemsInDirectoryAtPath:(NSString *)path deep:(BOOL)deep;
+
++(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary;
++(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary error:(NSError **)error;
+
++(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite;
++(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite error:(NSError **)error;
 
 +(BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath;
 +(BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath error:(NSError **)error;
