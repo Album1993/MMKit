@@ -6,6 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface MMFileReader : NSObject
 
 // Process the file identified by path calling block with each line to be processed or any

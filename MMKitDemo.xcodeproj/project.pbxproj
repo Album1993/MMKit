@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FC019127200755640069A3E0 /* MMRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FC019126200755640069A3E0 /* MMRuntime.m */; };
+		FC54B750202AC80900007FC8 /* MMRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FC54B74F202AC80900007FC8 /* MMRuntime.m */; };
 		FC88F3931FECFB9B00D09F8E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FC88F3921FECFB9B00D09F8E /* AppDelegate.m */; };
 		FC88F3961FECFB9B00D09F8E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC88F3951FECFB9B00D09F8E /* ViewController.m */; };
 		FC88F3991FECFB9B00D09F8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC88F3971FECFB9B00D09F8E /* Main.storyboard */; };
@@ -46,6 +47,8 @@
 /* Begin PBXFileReference section */
 		FC019125200755640069A3E0 /* MMRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMRuntime.h; sourceTree = "<group>"; };
 		FC019126200755640069A3E0 /* MMRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMRuntime.m; sourceTree = "<group>"; };
+		FC54B74E202AC80900007FC8 /* MMRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMRuntime.h; sourceTree = "<group>"; };
+		FC54B74F202AC80900007FC8 /* MMRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMRuntime.m; sourceTree = "<group>"; };
 		FC88F38E1FECFB9B00D09F8E /* MMKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MMKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC88F3911FECFB9B00D09F8E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FC88F3921FECFB9B00D09F8E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -214,6 +217,8 @@
 			isa = PBXGroup;
 			children = (
 				FC88F3D71FED0DBE00D09F8E /* MMDebug.h */,
+				FC54B74E202AC80900007FC8 /* MMRuntime.h */,
+				FC54B74F202AC80900007FC8 /* MMRuntime.m */,
 			);
 			path = DebugKit;
 			sourceTree = "<group>";
@@ -361,6 +366,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC88F3DA1FED0DBE00D09F8E /* MMFileReader.m in Sources */,
+				FC54B750202AC80900007FC8 /* MMRuntime.m in Sources */,
 				FCB4110E1FF2499900EC5D40 /* NSString+MMString.m in Sources */,
 				FC88F3D81FED0DBE00D09F8E /* MMDeviceInformation.m in Sources */,
 				FC88F3961FECFB9B00D09F8E /* ViewController.m in Sources */,

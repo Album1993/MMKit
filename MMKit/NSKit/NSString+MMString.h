@@ -8,14 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface NSString (MMString)
 
 // 这个string本身就是json
--(NSString *)mm_appendJson:(NSString *)string;
+- (NSString *)mm_appendJson:(NSString *)string;
 
--(NSDictionary *)mm_transJson:(NSError *)error;
+- (NSDictionary *)mm_transJson:(NSError *)error;
 
--(BOOL)mm_isEmptyString;
+- (BOOL)mm_isEmptyString;
 
 - (id)mm_jsonObject:(NSError *)error;
 

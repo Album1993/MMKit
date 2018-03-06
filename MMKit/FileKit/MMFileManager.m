@@ -11,21 +11,20 @@
 
 @implementation MMFileManager
 
-+(NSMutableArray *)absoluteDirectories
-{
++ (NSMutableArray *)absoluteDirectories {
     static NSMutableArray *directories = nil;
     static dispatch_once_t token;
 
     dispatch_once(&token, ^{
 
         directories = [NSMutableArray arrayWithObjects:
-                                [self pathForApplicationSupportDirectory],
-                                [self pathForCachesDirectory],
-                                [self pathForDocumentsDirectory],
-                                [self pathForLibraryDirectory],
-                                [self pathForMainBundleDirectory],
-                                [self pathForTemporaryDirectory],
-                                nil];
+                                          [self pathForApplicationSupportDirectory],
+                                          [self pathForCachesDirectory],
+                                          [self pathForDocumentsDirectory],
+                                          [self pathForLibraryDirectory],
+                                          [self pathForMainBundleDirectory],
+                                          [self pathForTemporaryDirectory],
+                                          nil];
 
         [directories sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 
@@ -38,23 +37,19 @@
 }
 
 
-+(NSString *)absoluteDirectoryForPath:(NSString *)path
-{
++ (NSString *)absoluteDirectoryForPath:(NSString *)path {
     [self assertPath:path];
 
-    if([path isEqualToString:@"/"])
-    {
+    if ([path isEqualToString:@"/"]) {
         return nil;
     }
 
     NSMutableArray *directories = [self absoluteDirectories];
 
-    for(NSString *directory in directories)
-    {
+    for (NSString *directory in directories) {
         NSRange indexOfDirectoryInPath = [path rangeOfString:directory];
 
-        if(indexOfDirectoryInPath.location == 0)
-        {
+        if (indexOfDirectoryInPath.location == 0) {
             return directory;
         }
     }
@@ -63,120 +58,101 @@
 }
 
 
-+(NSString *)absolutePath:(NSString *)path
-{
++ (NSString *)absolutePath:(NSString *)path {
     [self assertPath:path];
 
     NSString *defaultDirectory = [self absoluteDirectoryForPath:path];
 
-    if(defaultDirectory != nil)
-    {
+    if (defaultDirectory != nil) {
         return path;
-    }
-    else {
+    } else {
         return [self pathForDocumentsDirectoryWithPath:path];
     }
 }
 
 
-+(void)assertPath:(NSString *)path
-{
++ (void)assertPath:(NSString *)path {
     NSAssert(path != nil, @"Invalid path. Path cannot be nil.");
     NSAssert(![path isEqualToString:@""], @"Invalid path. Path cannot be empty string.");
 }
 
 
-+(id)attributeOfItemAtPath:(NSString *)path forKey:(NSString *)key
-{
++ (id)attributeOfItemAtPath:(NSString *)path forKey:(NSString *)key {
     return [[self attributesOfItemAtPath:path] objectForKey:key];
 }
 
 
-+(id)attributeOfItemAtPath:(NSString *)path forKey:(NSString *)key error:(NSError **)error
-{
++ (id)attributeOfItemAtPath:(NSString *)path forKey:(NSString *)key error:(NSError **)error {
     return [[self attributesOfItemAtPath:path error:error] objectForKey:key];
 }
 
 
-+(NSDictionary *)attributesOfItemAtPath:(NSString *)path
-{
++ (NSDictionary *)attributesOfItemAtPath:(NSString *)path {
     return [self attributesOfItemAtPath:path error:nil];
 }
 
 
-+(NSDictionary *)attributesOfItemAtPath:(NSString *)path error:(NSError **)error
-{
++ (NSDictionary *)attributesOfItemAtPath:(NSString *)path error:(NSError **)error {
     return [[NSFileManager defaultManager] attributesOfItemAtPath:[self absolutePath:path] error:error];
 }
 
-+(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary {
++ (BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary {
     return [self copyItemAtPath:path toDirectory:toDictionary error:nil];
 }
 
-+(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary error:(NSError **)error {
++ (BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary error:(NSError **)error {
     return [self copyItemAtPath:path toDirectory:toDictionary overwrite:NO error:error];
 }
 
-+(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite {
++ (BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite {
     return [self copyItemAtPath:path toDirectory:toDictionary overwrite:overwrite error:nil];
 }
 
-+(BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite error:(NSError **)error {
-    NSString * filename = [MMFileManager fileNameWithExtensionAtPath:path];
-    NSString * toPath = [toDictionary stringByAppendingPathComponent:filename];
++ (BOOL)copyItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite error:(NSError **)error {
+    NSString *filename = [MMFileManager fileNameWithExtensionAtPath:path];
+    NSString *toPath   = [toDictionary stringByAppendingPathComponent:filename];
     return [self copyItemAtPath:path toDirectory:toPath overwrite:overwrite error:error];
 }
 
-+(BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath
-{
++ (BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath {
     return [self copyItemAtPath:path toPath:toPath overwrite:NO error:nil];
 }
 
 
-+(BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath error:(NSError **)error
-{
++ (BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath error:(NSError **)error {
     return [self copyItemAtPath:path toPath:toPath overwrite:NO error:error];
 }
 
 
-+(BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath overwrite:(BOOL)overwrite
-{
++ (BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath overwrite:(BOOL)overwrite {
     return [self copyItemAtPath:path toPath:toPath overwrite:overwrite error:nil];
 }
 
 
-+(BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath overwrite:(BOOL)overwrite error:(NSError **)error
-{
-    if(![self existsItemAtPath:toPath] || (overwrite && [self removeItemAtPath:toPath error:error] && [self isNotError:error]))
-    {
-        if([self createDirectoriesForFileAtPath:toPath error:error])
-        {
++ (BOOL)copyItemAtPath:(NSString *)path toPath:(NSString *)toPath overwrite:(BOOL)overwrite error:(NSError **)error {
+    if (![self existsItemAtPath:toPath] || (overwrite && [self removeItemAtPath:toPath error:error] && [self isNotError:error])) {
+        if ([self createDirectoriesForFileAtPath:toPath error:error]) {
             BOOL copied = [[NSFileManager defaultManager] copyItemAtPath:[self absolutePath:path] toPath:[self absolutePath:toPath] error:error];
 
             return (copied && [self isNotError:error]);
-        }
-        else {
+        } else {
             return NO;
         }
-    }
-    else {
+    } else {
         return NO;
     }
 }
 
 
-+(BOOL)createDirectoriesForFileAtPath:(NSString *)path
-{
++ (BOOL)createDirectoriesForFileAtPath:(NSString *)path {
     return [self createDirectoriesForFileAtPath:path error:nil];
 }
 
 
-+(BOOL)createDirectoriesForFileAtPath:(NSString *)path error:(NSError **)error
-{
++ (BOOL)createDirectoriesForFileAtPath:(NSString *)path error:(NSError **)error {
     NSString *pathLastChar = [path substringFromIndex:(path.length - 1)];
 
-    if([pathLastChar isEqualToString:@"/"])
-    {
+    if ([pathLastChar isEqualToString:@"/"]) {
         [NSException raise:@"Invalid path" format:@"file path can't have a trailing '/'."];
 
         return NO;
@@ -186,197 +162,163 @@
 }
 
 
-+(BOOL)createDirectoriesForPath:(NSString *)path
-{
++ (BOOL)createDirectoriesForPath:(NSString *)path {
     return [self createDirectoriesForPath:path error:nil];
 }
 
 
-+(BOOL)createDirectoriesForPath:(NSString *)path error:(NSError **)error
-{
++ (BOOL)createDirectoriesForPath:(NSString *)path error:(NSError **)error {
     return [[NSFileManager defaultManager] createDirectoryAtPath:[self absolutePath:path] withIntermediateDirectories:YES attributes:nil error:error];
 }
 
 
-+(BOOL)createFileAtPath:(NSString *)path
-{
++ (BOOL)createFileAtPath:(NSString *)path {
     return [self createFileAtPath:path withContent:nil overwrite:NO error:nil];
 }
 
 
-+(BOOL)createFileAtPath:(NSString *)path error:(NSError **)error
-{
++ (BOOL)createFileAtPath:(NSString *)path error:(NSError **)error {
     return [self createFileAtPath:path withContent:nil overwrite:NO error:error];
 }
 
 
-+(BOOL)createFileAtPath:(NSString *)path overwrite:(BOOL)overwrite
-{
++ (BOOL)createFileAtPath:(NSString *)path overwrite:(BOOL)overwrite {
     return [self createFileAtPath:path withContent:nil overwrite:overwrite error:nil];
 }
 
 
-+(BOOL)createFileAtPath:(NSString *)path overwrite:(BOOL)overwrite error:(NSError **)error
-{
++ (BOOL)createFileAtPath:(NSString *)path overwrite:(BOOL)overwrite error:(NSError **)error {
     return [self createFileAtPath:path withContent:nil overwrite:overwrite error:error];
 }
 
 
-+(BOOL)createFileAtPath:(NSString *)path withContent:(NSObject *)content
-{
++ (BOOL)createFileAtPath:(NSString *)path withContent:(NSObject *)content {
     return [self createFileAtPath:path withContent:content overwrite:NO error:nil];
 }
 
 
-+(BOOL)createFileAtPath:(NSString *)path withContent:(NSObject *)content error:(NSError **)error
-{
++ (BOOL)createFileAtPath:(NSString *)path withContent:(NSObject *)content error:(NSError **)error {
     return [self createFileAtPath:path withContent:content overwrite:NO error:error];
 }
 
 
-+(BOOL)createFileAtPath:(NSString *)path withContent:(NSObject *)content overwrite:(BOOL)overwrite
-{
++ (BOOL)createFileAtPath:(NSString *)path withContent:(NSObject *)content overwrite:(BOOL)overwrite {
     return [self createFileAtPath:path withContent:content overwrite:overwrite error:nil];
 }
 
 
-+(BOOL)createFileAtPath:(NSString *)path withContent:(NSObject *)content overwrite:(BOOL)overwrite error:(NSError **)error
-{
-    if(![self existsItemAtPath:path] || (overwrite && [self removeItemAtPath:path error:error] && [self isNotError:error]))
-    {
-        if([self createDirectoriesForFileAtPath:path error:error])
-        {
++ (BOOL)createFileAtPath:(NSString *)path withContent:(NSObject *)content overwrite:(BOOL)overwrite error:(NSError **)error {
+    if (![self existsItemAtPath:path] || (overwrite && [self removeItemAtPath:path error:error] && [self isNotError:error])) {
+        if ([self createDirectoriesForFileAtPath:path error:error]) {
             BOOL created = [[NSFileManager defaultManager] createFileAtPath:[self absolutePath:path] contents:nil attributes:nil];
 
-            if(content != nil)
-            {
+            if (content != nil) {
                 [self writeFileAtPath:path content:content error:error];
             }
 
             return (created && [self isNotError:error]);
-        }
-        else {
+        } else {
             return NO;
         }
-    }
-    else {
+    } else {
         return NO;
     }
 }
 
 
-+(NSDate *)creationDateOfItemAtPath:(NSString *)path
-{
++ (NSDate *)creationDateOfItemAtPath:(NSString *)path {
     return [self creationDateOfItemAtPath:path error:nil];
 }
 
 
-+(NSDate *)creationDateOfItemAtPath:(NSString *)path error:(NSError **)error
-{
++ (NSDate *)creationDateOfItemAtPath:(NSString *)path error:(NSError **)error {
     return (NSDate *)[self attributeOfItemAtPath:path forKey:NSFileCreationDate error:error];
 }
 
 
-+(NSDate *)modificationDateOfItemAtPath:(NSString *)path
-{
++ (NSDate *)modificationDateOfItemAtPath:(NSString *)path {
     return [self modificationDateOfItemAtPath:path error:nil];
 }
 
 
-+(NSDate *)modificationDateOfItemAtPath:(NSString *)path error:(NSError **)error
-{
++ (NSDate *)modificationDateOfItemAtPath:(NSString *)path error:(NSError **)error {
     return (NSDate *)[self attributeOfItemAtPath:path forKey:NSFileModificationDate error:error];
 }
 
 
-+(BOOL)emptyCachesDirectory
-{
++ (BOOL)emptyCachesDirectory {
     return [self removeFilesInDirectoryAtPath:[self pathForCachesDirectory]];
 }
 
 
-+(BOOL)emptyTemporaryDirectory
-{
++ (BOOL)emptyTemporaryDirectory {
     return [self removeFilesInDirectoryAtPath:[self pathForTemporaryDirectory]];
 }
 
 
-+(BOOL)existsItemAtPath:(NSString *)path
-{
++ (BOOL)existsItemAtPath:(NSString *)path {
     return [[NSFileManager defaultManager] fileExistsAtPath:[self absolutePath:path]];
 }
 
 
-+(BOOL)isDirectoryItemAtPath:(NSString *)path
-{
++ (BOOL)isDirectoryItemAtPath:(NSString *)path {
     return [self isDirectoryItemAtPath:path error:nil];
 }
 
 
-+(BOOL)isDirectoryItemAtPath:(NSString *)path error:(NSError **)error
-{
++ (BOOL)isDirectoryItemAtPath:(NSString *)path error:(NSError **)error {
     return ([self attributeOfItemAtPath:path forKey:NSFileType error:error] == NSFileTypeDirectory);
 }
 
 
-+(BOOL)isEmptyItemAtPath:(NSString *)path
-{
++ (BOOL)isEmptyItemAtPath:(NSString *)path {
     return [self isEmptyItemAtPath:path error:nil];
 }
 
 
-+(BOOL)isEmptyItemAtPath:(NSString *)path error:(NSError **)error
-{
++ (BOOL)isEmptyItemAtPath:(NSString *)path error:(NSError **)error {
     return ([self isFileItemAtPath:path error:error] && ([[self sizeOfItemAtPath:path error:error] intValue] == 0)) || ([self isDirectoryItemAtPath:path error:error] && ([[self listItemsInDirectoryAtPath:path deep:NO] count] == 0));
 }
 
 
-+(BOOL)isFileItemAtPath:(NSString *)path
-{
++ (BOOL)isFileItemAtPath:(NSString *)path {
     return [self isFileItemAtPath:path error:nil];
 }
 
 
-+(BOOL)isFileItemAtPath:(NSString *)path error:(NSError **)error
-{
++ (BOOL)isFileItemAtPath:(NSString *)path error:(NSError **)error {
     return ([self attributeOfItemAtPath:path forKey:NSFileType error:error] == NSFileTypeRegular);
 }
 
 
-+(BOOL)isExecutableItemAtPath:(NSString *)path
-{
++ (BOOL)isExecutableItemAtPath:(NSString *)path {
     return [[NSFileManager defaultManager] isExecutableFileAtPath:[self absolutePath:path]];
 }
 
 
-+(BOOL)isNotError:(NSError **)error
-{
++ (BOOL)isNotError:(NSError **)error {
     //the first check prevents EXC_BAD_ACCESS error in case methods are called passing nil to error argument
     //the second check prevents that the methods returns always NO just because the error pointer exists (so the first condition returns YES)
     return ((error == nil) || ((*error) == nil));
 }
 
 
-+(BOOL)isReadableItemAtPath:(NSString *)path
-{
++ (BOOL)isReadableItemAtPath:(NSString *)path {
     return [[NSFileManager defaultManager] isReadableFileAtPath:[self absolutePath:path]];
 }
 
 
-+(BOOL)isWritableItemAtPath:(NSString *)path
-{
++ (BOOL)isWritableItemAtPath:(NSString *)path {
     return [[NSFileManager defaultManager] isWritableFileAtPath:[self absolutePath:path]];
 }
 
 
-+(NSArray *)listDirectoriesInDirectoryAtPath:(NSString *)path
-{
++ (NSArray *)listDirectoriesInDirectoryAtPath:(NSString *)path {
     return [self listDirectoriesInDirectoryAtPath:path deep:NO];
 }
 
 
-+(NSArray *)listDirectoriesInDirectoryAtPath:(NSString *)path deep:(BOOL)deep
-{
++ (NSArray *)listDirectoriesInDirectoryAtPath:(NSString *)path deep:(BOOL)deep {
     NSArray *subpaths = [self listItemsInDirectoryAtPath:path deep:deep];
 
     return [subpaths filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
@@ -388,14 +330,12 @@
 }
 
 
-+(NSArray *)listFilesInDirectoryAtPath:(NSString *)path
-{
++ (NSArray *)listFilesInDirectoryAtPath:(NSString *)path {
     return [self listFilesInDirectoryAtPath:path deep:NO];
 }
 
 
-+(NSArray *)listFilesInDirectoryAtPath:(NSString *)path deep:(BOOL)deep
-{
++ (NSArray *)listFilesInDirectoryAtPath:(NSString *)path deep:(BOOL)deep {
     NSArray *subpaths = [self listItemsInDirectoryAtPath:path deep:deep];
 
     return [subpaths filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
@@ -407,60 +347,54 @@
 }
 
 
-+(NSArray *)listFilesInDirectoryAtPath:(NSString *)path withExtension:(NSString *)extension
-{
++ (NSArray *)listFilesInDirectoryAtPath:(NSString *)path withExtension:(NSString *)extension {
     return [self listFilesInDirectoryAtPath:path withExtension:extension deep:NO];
 }
 
 
-+(NSArray *)listFilesInDirectoryAtPath:(NSString *)path withExtension:(NSString *)extension deep:(BOOL)deep
-{
++ (NSArray *)listFilesInDirectoryAtPath:(NSString *)path withExtension:(NSString *)extension deep:(BOOL)deep {
     NSArray *subpaths = [self listFilesInDirectoryAtPath:path deep:deep];
 
     return [subpaths filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
 
-        NSString *subpath = (NSString *)evaluatedObject;
+        NSString *subpath          = (NSString *)evaluatedObject;
         NSString *subpathExtension = [[subpath pathExtension] lowercaseString];
-        NSString *filterExtension = [[extension lowercaseString] stringByReplacingOccurrencesOfString:@"." withString:@""];
+        NSString *filterExtension  = [[extension lowercaseString] stringByReplacingOccurrencesOfString:@"." withString:@""];
 
         return [subpathExtension isEqualToString:filterExtension];
     }]];
 }
 
 
-+(NSArray *)listFilesInDirectoryAtPath:(NSString *)path withPrefix:(NSString *)prefix
-{
++ (NSArray *)listFilesInDirectoryAtPath:(NSString *)path withPrefix:(NSString *)prefix {
     return [self listFilesInDirectoryAtPath:path withPrefix:prefix deep:NO];
 }
 
 
-+(NSArray *)listFilesInDirectoryAtPath:(NSString *)path withPrefix:(NSString *)prefix deep:(BOOL)deep
-{
++ (NSArray *)listFilesInDirectoryAtPath:(NSString *)path withPrefix:(NSString *)prefix deep:(BOOL)deep {
     NSArray *subpaths = [self listFilesInDirectoryAtPath:path deep:deep];
 
     return [subpaths filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
 
-        NSString *subpath = (NSString *)evaluatedObject;
+        NSString *subpath  = (NSString *)evaluatedObject;
         NSString *fileName = [subpath lastPathComponent];
-        
+
         return ([fileName hasPrefix:prefix] || [fileName isEqualToString:prefix]);
     }]];
 }
 
 
-+(NSArray *)listFilesInDirectoryAtPath:(NSString *)path withSuffix:(NSString *)suffix
-{
++ (NSArray *)listFilesInDirectoryAtPath:(NSString *)path withSuffix:(NSString *)suffix {
     return [self listFilesInDirectoryAtPath:path withSuffix:suffix deep:NO];
 }
 
 
-+(NSArray *)listFilesInDirectoryAtPath:(NSString *)path withSuffix:(NSString *)suffix deep:(BOOL)deep
-{
++ (NSArray *)listFilesInDirectoryAtPath:(NSString *)path withSuffix:(NSString *)suffix deep:(BOOL)deep {
     NSArray *subpaths = [self listFilesInDirectoryAtPath:path deep:deep];
 
     return [subpaths filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
 
-        NSString *subpath = (NSString *)evaluatedObject;
+        NSString *subpath     = (NSString *)evaluatedObject;
         NSString *subpathName = [subpath stringByDeletingPathExtension];
 
         return ([subpath hasSuffix:suffix] || [subpath isEqualToString:suffix] || [subpathName hasSuffix:suffix] || [subpathName isEqualToString:suffix]);
@@ -468,15 +402,13 @@
 }
 
 
-+(NSArray *)listItemsInDirectoryAtPath:(NSString *)path deep:(BOOL)deep
-{
-    NSString *absolutePath = [self absolutePath:path];
++ (NSArray *)listItemsInDirectoryAtPath:(NSString *)path deep:(BOOL)deep {
+    NSString *absolutePath    = [self absolutePath:path];
     NSArray *relativeSubpaths = (deep ? [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:absolutePath error:nil] : [[NSFileManager defaultManager] contentsOfDirectoryAtPath:absolutePath error:nil]);
 
     NSMutableArray *absoluteSubpaths = [[NSMutableArray alloc] init];
 
-    for(NSString *relativeSubpath in relativeSubpaths)
-    {
+    for (NSString *relativeSubpath in relativeSubpaths) {
         NSString *absoluteSubpath = [absolutePath stringByAppendingPathComponent:relativeSubpath];
         [absoluteSubpaths addObject:absoluteSubpath];
     }
@@ -484,57 +416,50 @@
     return [NSArray arrayWithArray:absoluteSubpaths];
 }
 
-+(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary {
++ (BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary {
     return [self moveItemAtPath:path toDirectory:toDictionary error:nil];
 }
 
-+(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary error:(NSError **)error {
++ (BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary error:(NSError **)error {
     return [self moveItemAtPath:path toDirectory:toDictionary overwrite:NO error:error];
 }
 
-+(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite {
++ (BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite {
     return [self moveItemAtPath:path toDirectory:toDictionary overwrite:overwrite error:nil];
 }
 
-+(BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite error:(NSError **)error {
-    NSString * filename = [MMFileManager fileNameWithExtensionAtPath:path];
-    NSString * toPath = [toDictionary stringByAppendingPathComponent:filename];
++ (BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)toDictionary overwrite:(BOOL)overwrite error:(NSError **)error {
+    NSString *filename = [MMFileManager fileNameWithExtensionAtPath:path];
+    NSString *toPath   = [toDictionary stringByAppendingPathComponent:filename];
     return [self moveItemAtPath:path toDirectory:toPath overwrite:overwrite error:error];
 }
 
-+(BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath
-{
++ (BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath {
     return [self moveItemAtPath:path toPath:toPath overwrite:NO error:nil];
 }
 
 
-+(BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath error:(NSError **)error
-{
++ (BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath error:(NSError **)error {
     return [self moveItemAtPath:path toPath:toPath overwrite:NO error:error];
 }
 
 
-+(BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath overwrite:(BOOL)overwrite
-{
++ (BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath overwrite:(BOOL)overwrite {
     return [self moveItemAtPath:path toPath:toPath overwrite:overwrite error:nil];
 }
 
 
-+(BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath overwrite:(BOOL)overwrite error:(NSError **)error
-{
-    if(![self existsItemAtPath:toPath] || (overwrite && [self removeItemAtPath:toPath error:error] && [self isNotError:error]))
-    {
++ (BOOL)moveItemAtPath:(NSString *)path toPath:(NSString *)toPath overwrite:(BOOL)overwrite error:(NSError **)error {
+    if (![self existsItemAtPath:toPath] || (overwrite && [self removeItemAtPath:toPath error:error] && [self isNotError:error])) {
         return ([self createDirectoriesForFileAtPath:toPath error:error] && [[NSFileManager defaultManager] moveItemAtPath:[self absolutePath:path] toPath:[self absolutePath:toPath] error:error]);
-    }
-    else {
+    } else {
         return NO;
     }
 }
 
 
-+(NSString *)pathForApplicationSupportDirectory
-{
-    static NSString *path = nil;
++ (NSString *)pathForApplicationSupportDirectory {
+    static NSString *      path = nil;
     static dispatch_once_t token;
 
     dispatch_once(&token, ^{
@@ -548,15 +473,13 @@
 }
 
 
-+(NSString *)pathForApplicationSupportDirectoryWithPath:(NSString *)path
-{
++ (NSString *)pathForApplicationSupportDirectoryWithPath:(NSString *)path {
     return [[MMFileManager pathForApplicationSupportDirectory] stringByAppendingPathComponent:path];
 }
 
 
-+(NSString *)pathForCachesDirectory
-{
-    static NSString *path = nil;
++ (NSString *)pathForCachesDirectory {
+    static NSString *      path = nil;
     static dispatch_once_t token;
 
     dispatch_once(&token, ^{
@@ -570,15 +493,13 @@
 }
 
 
-+(NSString *)pathForCachesDirectoryWithPath:(NSString *)path
-{
++ (NSString *)pathForCachesDirectoryWithPath:(NSString *)path {
     return [[MMFileManager pathForCachesDirectory] stringByAppendingPathComponent:path];
 }
 
 
-+(NSString *)pathForDocumentsDirectory
-{
-    static NSString *path = nil;
++ (NSString *)pathForDocumentsDirectory {
+    static NSString *      path = nil;
     static dispatch_once_t token;
 
     dispatch_once(&token, ^{
@@ -592,15 +513,13 @@
 }
 
 
-+(NSString *)pathForDocumentsDirectoryWithPath:(NSString *)path
-{
++ (NSString *)pathForDocumentsDirectoryWithPath:(NSString *)path {
     return [[MMFileManager pathForDocumentsDirectory] stringByAppendingPathComponent:path];
 }
 
 
-+(NSString *)pathForLibraryDirectory
-{
-    static NSString *path = nil;
++ (NSString *)pathForLibraryDirectory {
+    static NSString *      path = nil;
     static dispatch_once_t token;
 
     dispatch_once(&token, ^{
@@ -614,31 +533,26 @@
 }
 
 
-+(NSString *)pathForLibraryDirectoryWithPath:(NSString *)path
-{
++ (NSString *)pathForLibraryDirectoryWithPath:(NSString *)path {
     return [[MMFileManager pathForLibraryDirectory] stringByAppendingPathComponent:path];
 }
 
 
-+(NSString *)pathForMainBundleDirectory
-{
++ (NSString *)pathForMainBundleDirectory {
     return [NSBundle mainBundle].resourcePath;
 }
 
 
-+(NSString *)pathForMainBundleDirectoryWithPath:(NSString *)path
-{
++ (NSString *)pathForMainBundleDirectoryWithPath:(NSString *)path {
     return [[MMFileManager pathForMainBundleDirectory] stringByAppendingPathComponent:path];
 }
 
 
-+(NSString *)pathForPlistNamed:(NSString *)name
-{
-    NSString *nameExtension = [name pathExtension];
++ (NSString *)pathForPlistNamed:(NSString *)name {
+    NSString *nameExtension  = [name pathExtension];
     NSString *plistExtension = @"plist";
 
-    if([nameExtension isEqualToString:@""])
-    {
+    if ([nameExtension isEqualToString:@""]) {
         name = [name stringByAppendingPathExtension:plistExtension];
     }
 
@@ -646,9 +560,8 @@
 }
 
 
-+(NSString *)pathForTemporaryDirectory
-{
-    static NSString *path = nil;
++ (NSString *)pathForTemporaryDirectory {
+    static NSString *      path = nil;
     static dispatch_once_t token;
 
     dispatch_once(&token, ^{
@@ -660,66 +573,55 @@
 }
 
 
-+(NSString *)pathForTemporaryDirectoryWithPath:(NSString *)path
-{
++ (NSString *)pathForTemporaryDirectoryWithPath:(NSString *)path {
     return [[MMFileManager pathForTemporaryDirectory] stringByAppendingPathComponent:path];
 }
 
 
-+(NSString *)readFileAtPath:(NSString *)path
-{
++ (NSString *)readFileAtPath:(NSString *)path {
     return [self readFileAtPathAsString:path error:nil];
 }
 
 
-+(NSString *)readFileAtPath:(NSString *)path error:(NSError **)error
-{
++ (NSString *)readFileAtPath:(NSString *)path error:(NSError **)error {
     return [self readFileAtPathAsString:path error:error];
 }
 
 
-+(NSArray *)readFileAtPathAsArray:(NSString *)path
-{
++ (NSArray *)readFileAtPathAsArray:(NSString *)path {
     return [NSArray arrayWithContentsOfFile:[self absolutePath:path]];
 }
 
 
-+(NSObject *)readFileAtPathAsCustomModel:(NSString *)path
-{
++ (NSObject *)readFileAtPathAsCustomModel:(NSString *)path {
     return [NSKeyedUnarchiver unarchiveObjectWithFile:[self absolutePath:path]];
 }
 
 
-+(NSData *)readFileAtPathAsData:(NSString *)path
-{
++ (NSData *)readFileAtPathAsData:(NSString *)path {
     return [self readFileAtPathAsData:path error:nil];
 }
 
 
-+(NSData *)readFileAtPathAsData:(NSString *)path error:(NSError **)error
-{
++ (NSData *)readFileAtPathAsData:(NSString *)path error:(NSError **)error {
     return [NSData dataWithContentsOfFile:[self absolutePath:path] options:NSDataReadingMapped error:error];
 }
 
 
-+(NSDictionary *)readFileAtPathAsDictionary:(NSString *)path
-{
++ (NSDictionary *)readFileAtPathAsDictionary:(NSString *)path {
     return [NSDictionary dictionaryWithContentsOfFile:[self absolutePath:path]];
 }
 
 
-+(UIImage *)readFileAtPathAsImage:(NSString *)path
-{
++ (UIImage *)readFileAtPathAsImage:(NSString *)path {
     return [self readFileAtPathAsImage:path error:nil];
 }
 
 
-+(UIImage *)readFileAtPathAsImage:(NSString *)path error:(NSError **)error
-{
++ (UIImage *)readFileAtPathAsImage:(NSString *)path error:(NSError **)error {
     NSData *data = [self readFileAtPathAsData:path error:error];
 
-    if([self isNotError:error])
-    {
+    if ([self isNotError:error]) {
         return [UIImage imageWithData:data];
     }
 
@@ -727,18 +629,15 @@
 }
 
 
-+(UIImageView *)readFileAtPathAsImageView:(NSString *)path
-{
++ (UIImageView *)readFileAtPathAsImageView:(NSString *)path {
     return [self readFileAtPathAsImageView:path error:nil];
 }
 
 
-+(UIImageView *)readFileAtPathAsImageView:(NSString *)path error:(NSError **)error
-{
++ (UIImageView *)readFileAtPathAsImageView:(NSString *)path error:(NSError **)error {
     UIImage *image = [self readFileAtPathAsImage:path error:error];
 
-    if([self isNotError:error])
-    {
+    if ([self isNotError:error]) {
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         [imageView sizeToFit];
         return imageView;
@@ -748,22 +647,18 @@
 }
 
 
-+(NSJSONSerialization *)readFileAtPathAsJSON:(NSString *)path
-{
++ (NSJSONSerialization *)readFileAtPathAsJSON:(NSString *)path {
     return [self readFileAtPathAsJSON:path error:nil];
 }
 
 
-+(NSJSONSerialization *)readFileAtPathAsJSON:(NSString *)path error:(NSError **)error
-{
++ (NSJSONSerialization *)readFileAtPathAsJSON:(NSString *)path error:(NSError **)error {
     NSData *data = [self readFileAtPathAsData:path error:error];
 
-    if([self isNotError:error])
-    {
+    if ([self isNotError:error]) {
         NSJSONSerialization *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
 
-        if([NSJSONSerialization isValidJSONObject:json])
-        {
+        if ([NSJSONSerialization isValidJSONObject:json]) {
             return json;
         }
     }
@@ -772,126 +667,105 @@
 }
 
 
-+(NSMutableArray *)readFileAtPathAsMutableArray:(NSString *)path
-{
++ (NSMutableArray *)readFileAtPathAsMutableArray:(NSString *)path {
     return [NSMutableArray arrayWithContentsOfFile:[self absolutePath:path]];
 }
 
 
-+(NSMutableData *)readFileAtPathAsMutableData:(NSString *)path
-{
++ (NSMutableData *)readFileAtPathAsMutableData:(NSString *)path {
     return [self readFileAtPathAsMutableData:path error:nil];
 }
 
 
-+(NSMutableData *)readFileAtPathAsMutableData:(NSString *)path error:(NSError **)error
-{
++ (NSMutableData *)readFileAtPathAsMutableData:(NSString *)path error:(NSError **)error {
     return [NSMutableData dataWithContentsOfFile:[self absolutePath:path] options:NSDataReadingMapped error:error];
 }
 
 
-+(NSMutableDictionary *)readFileAtPathAsMutableDictionary:(NSString *)path
-{
++ (NSMutableDictionary *)readFileAtPathAsMutableDictionary:(NSString *)path {
     return [NSMutableDictionary dictionaryWithContentsOfFile:[self absolutePath:path]];
 }
 
 
-+(NSString *)readFileAtPathAsString:(NSString *)path
-{
++ (NSString *)readFileAtPathAsString:(NSString *)path {
     return [self readFileAtPath:path error:nil];
 }
 
 
-+(NSString *)readFileAtPathAsString:(NSString *)path error:(NSError **)error
-{
++ (NSString *)readFileAtPathAsString:(NSString *)path error:(NSError **)error {
     return [NSString stringWithContentsOfFile:[self absolutePath:path] encoding:NSUTF8StringEncoding error:error];
 }
 
 
-+(BOOL)removeFilesInDirectoryAtPath:(NSString *)path
-{
++ (BOOL)removeFilesInDirectoryAtPath:(NSString *)path {
     return [self removeItemsAtPaths:[self listFilesInDirectoryAtPath:path] error:nil];
 }
 
 
-+(BOOL)removeFilesInDirectoryAtPath:(NSString *)path error:(NSError **)error
-{
++ (BOOL)removeFilesInDirectoryAtPath:(NSString *)path error:(NSError **)error {
     return [self removeItemsAtPaths:[self listFilesInDirectoryAtPath:path] error:error];
 }
 
 
-+(BOOL)removeFilesInDirectoryAtPath:(NSString *)path withExtension:(NSString *)extension
-{
++ (BOOL)removeFilesInDirectoryAtPath:(NSString *)path withExtension:(NSString *)extension {
     return [self removeItemsAtPaths:[self listFilesInDirectoryAtPath:path withExtension:extension] error:nil];
 }
 
 
-+(BOOL)removeFilesInDirectoryAtPath:(NSString *)path withExtension:(NSString *)extension error:(NSError **)error
-{
++ (BOOL)removeFilesInDirectoryAtPath:(NSString *)path withExtension:(NSString *)extension error:(NSError **)error {
     return [self removeItemsAtPaths:[self listFilesInDirectoryAtPath:path withExtension:extension] error:error];
 }
 
 
-+(BOOL)removeFilesInDirectoryAtPath:(NSString *)path withPrefix:(NSString *)prefix
-{
++ (BOOL)removeFilesInDirectoryAtPath:(NSString *)path withPrefix:(NSString *)prefix {
     return [self removeItemsAtPaths:[self listFilesInDirectoryAtPath:path withPrefix:prefix] error:nil];
 }
 
 
-+(BOOL)removeFilesInDirectoryAtPath:(NSString *)path withPrefix:(NSString *)prefix error:(NSError **)error
-{
++ (BOOL)removeFilesInDirectoryAtPath:(NSString *)path withPrefix:(NSString *)prefix error:(NSError **)error {
     return [self removeItemsAtPaths:[self listFilesInDirectoryAtPath:path withPrefix:prefix] error:error];
 }
 
 
-+(BOOL)removeFilesInDirectoryAtPath:(NSString *)path withSuffix:(NSString *)suffix
-{
++ (BOOL)removeFilesInDirectoryAtPath:(NSString *)path withSuffix:(NSString *)suffix {
     return [self removeItemsAtPaths:[self listFilesInDirectoryAtPath:path withSuffix:suffix] error:nil];
 }
 
 
-+(BOOL)removeFilesInDirectoryAtPath:(NSString *)path withSuffix:(NSString *)suffix error:(NSError **)error
-{
++ (BOOL)removeFilesInDirectoryAtPath:(NSString *)path withSuffix:(NSString *)suffix error:(NSError **)error {
     return [self removeItemsAtPaths:[self listFilesInDirectoryAtPath:path withSuffix:suffix] error:error];
 }
 
 
-+(BOOL)removeItemsInDirectoryAtPath:(NSString *)path
-{
++ (BOOL)removeItemsInDirectoryAtPath:(NSString *)path {
     return [self removeItemsInDirectoryAtPath:path error:nil];
 }
 
 
-+(BOOL)removeItemsInDirectoryAtPath:(NSString *)path error:(NSError **)error
-{
++ (BOOL)removeItemsInDirectoryAtPath:(NSString *)path error:(NSError **)error {
     return [self removeItemsAtPaths:[self listItemsInDirectoryAtPath:path deep:NO] error:error];
 }
 
 
-+(BOOL)removeItemAtPath:(NSString *)path
-{
++ (BOOL)removeItemAtPath:(NSString *)path {
     return [self removeItemAtPath:path error:nil];
 }
 
 
-+(BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error
-{
++ (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error {
     return [[NSFileManager defaultManager] removeItemAtPath:[self absolutePath:path] error:error];
 }
 
 
-+(BOOL)removeItemsAtPaths:(NSArray *)paths
-{
++ (BOOL)removeItemsAtPaths:(NSArray *)paths {
     return [self removeItemsAtPaths:paths error:nil];
 }
 
 
-+(BOOL)removeItemsAtPaths:(NSArray *)paths error:(NSError **)error
-{
++ (BOOL)removeItemsAtPaths:(NSArray *)paths error:(NSError **)error {
     BOOL success = YES;
 
-    for(NSString *path in paths)
-    {
+    for (NSString *path in paths) {
         success &= [self removeItemAtPath:[self absolutePath:path] error:error];
     }
 
@@ -899,18 +773,15 @@
 }
 
 
-+(BOOL)renameItemAtPath:(NSString *)path withName:(NSString *)name
-{
++ (BOOL)renameItemAtPath:(NSString *)path withName:(NSString *)name {
     return [self renameItemAtPath:path withName:name error:nil];
 }
 
 
-+(BOOL)renameItemAtPath:(NSString *)path withName:(NSString *)name error:(NSError **)error
-{
++ (BOOL)renameItemAtPath:(NSString *)path withName:(NSString *)name error:(NSError **)error {
     NSRange indexOfSlash = [name rangeOfString:@"/"];
 
-    if(indexOfSlash.location < name.length)
-    {
+    if (indexOfSlash.location < name.length) {
         [NSException raise:@"Invalid name" format:@"file name can't contain a '/'."];
 
         return NO;
@@ -920,17 +791,16 @@
 }
 
 
-+(NSString *)sizeFormatted:(NSNumber *)size
-{
++ (NSString *)sizeFormatted:(NSNumber *)size {
     //TODO if OS X 10.8 or iOS 6
     //return [NSByteCountFormatter stringFromByteCount:[size intValue] countStyle:NSByteCountFormatterCountStyleFile];
 
     double convertedValue = [size doubleValue];
-    int multiplyFactor = 0;
+    int multiplyFactor    = 0;
 
-    NSArray *tokens = @[@"bytes", @"KB", @"MB", @"GB", @"TB"];
+    NSArray *tokens = @[ @"bytes", @"KB", @"MB", @"GB", @"TB" ];
 
-    while(convertedValue > 1024){
+    while (convertedValue > 1024) {
         convertedValue /= 1024;
 
         multiplyFactor++;
@@ -942,18 +812,15 @@
 }
 
 
-+(NSString *)sizeFormattedOfDirectoryAtPath:(NSString *)path
-{
++ (NSString *)sizeFormattedOfDirectoryAtPath:(NSString *)path {
     return [self sizeFormattedOfDirectoryAtPath:path error:nil];
 }
 
 
-+(NSString *)sizeFormattedOfDirectoryAtPath:(NSString *)path error:(NSError **)error
-{
++ (NSString *)sizeFormattedOfDirectoryAtPath:(NSString *)path error:(NSError **)error {
     NSNumber *size = [self sizeOfDirectoryAtPath:path error:error];
 
-    if(size != nil && [self isNotError:error])
-    {
+    if (size != nil && [self isNotError:error]) {
         return [self sizeFormatted:size];
     }
 
@@ -961,18 +828,15 @@
 }
 
 
-+(NSString *)sizeFormattedOfFileAtPath:(NSString *)path
-{
++ (NSString *)sizeFormattedOfFileAtPath:(NSString *)path {
     return [self sizeFormattedOfFileAtPath:path error:nil];
 }
 
 
-+(NSString *)sizeFormattedOfFileAtPath:(NSString *)path error:(NSError **)error
-{
++ (NSString *)sizeFormattedOfFileAtPath:(NSString *)path error:(NSError **)error {
     NSNumber *size = [self sizeOfFileAtPath:path error:error];
 
-    if(size != nil && [self isNotError:error])
-    {
+    if (size != nil && [self isNotError:error]) {
         return [self sizeFormatted:size];
     }
 
@@ -980,18 +844,15 @@
 }
 
 
-+(NSString *)sizeFormattedOfItemAtPath:(NSString *)path
-{
++ (NSString *)sizeFormattedOfItemAtPath:(NSString *)path {
     return [self sizeFormattedOfItemAtPath:path error:nil];
 }
 
 
-+(NSString *)sizeFormattedOfItemAtPath:(NSString *)path error:(NSError **)error
-{
++ (NSString *)sizeFormattedOfItemAtPath:(NSString *)path error:(NSError **)error {
     NSNumber *size = [self sizeOfItemAtPath:path error:error];
 
-    if(size != nil && [self isNotError:error])
-    {
+    if (size != nil && [self isNotError:error]) {
         return [self sizeFormatted:size];
     }
 
@@ -999,36 +860,28 @@
 }
 
 
-+(NSNumber *)sizeOfDirectoryAtPath:(NSString *)path
-{
++ (NSNumber *)sizeOfDirectoryAtPath:(NSString *)path {
     return [self sizeOfDirectoryAtPath:path error:nil];
 }
 
 
-+(NSNumber *)sizeOfDirectoryAtPath:(NSString *)path error:(NSError **)error
-{
-    if([self isDirectoryItemAtPath:path error:error])
-    {
-        if([self isNotError:error])
-        {
-            NSNumber *size = [self sizeOfItemAtPath:path error:error];
++ (NSNumber *)sizeOfDirectoryAtPath:(NSString *)path error:(NSError **)error {
+    if ([self isDirectoryItemAtPath:path error:error]) {
+        if ([self isNotError:error]) {
+            NSNumber *size   = [self sizeOfItemAtPath:path error:error];
             double sizeValue = [size doubleValue];
 
-            if([self isNotError:error])
-            {
-                NSArray *subpaths = [self listItemsInDirectoryAtPath:path deep:YES];
+            if ([self isNotError:error]) {
+                NSArray *  subpaths      = [self listItemsInDirectoryAtPath:path deep:YES];
                 NSUInteger subpathsCount = [subpaths count];
 
-                for(NSUInteger i = 0; i < subpathsCount; i++)
-                {
-                    NSString *subpath = [subpaths objectAtIndex:i];
+                for (NSUInteger i = 0; i < subpathsCount; i++) {
+                    NSString *subpath     = [subpaths objectAtIndex:i];
                     NSNumber *subpathSize = [self sizeOfItemAtPath:subpath error:error];
 
-                    if([self isNotError:error])
-                    {
+                    if ([self isNotError:error]) {
                         sizeValue += [subpathSize doubleValue];
-                    }
-                    else {
+                    } else {
                         return nil;
                     }
                 }
@@ -1042,18 +895,14 @@
 }
 
 
-+(NSNumber *)sizeOfFileAtPath:(NSString *)path
-{
++ (NSNumber *)sizeOfFileAtPath:(NSString *)path {
     return [self sizeOfFileAtPath:path error:nil];
 }
 
 
-+(NSNumber *)sizeOfFileAtPath:(NSString *)path error:(NSError **)error
-{
-    if([self isFileItemAtPath:path error:error])
-    {
-        if([self isNotError:error])
-        {
++ (NSNumber *)sizeOfFileAtPath:(NSString *)path error:(NSError **)error {
+    if ([self isFileItemAtPath:path error:error]) {
+        if ([self isNotError:error]) {
             return [self sizeOfItemAtPath:path error:error];
         }
     }
@@ -1062,34 +911,28 @@
 }
 
 
-+(NSNumber *)sizeOfItemAtPath:(NSString *)path
-{
++ (NSNumber *)sizeOfItemAtPath:(NSString *)path {
     return [self sizeOfItemAtPath:path error:nil];
 }
 
 
-+(NSNumber *)sizeOfItemAtPath:(NSString *)path error:(NSError **)error
-{
++ (NSNumber *)sizeOfItemAtPath:(NSString *)path error:(NSError **)error {
     return (NSNumber *)[self attributeOfItemAtPath:path forKey:NSFileSize error:error];
 }
 
 
-+(NSURL *)urlForItemAtPath:(NSString *)path
-{
++ (NSURL *)urlForItemAtPath:(NSString *)path {
     return [NSURL fileURLWithPath:[self absolutePath:path]];
 }
 
 
-+(BOOL)writeFileAtPath:(NSString *)path content:(NSObject *)content
-{
++ (BOOL)writeFileAtPath:(NSString *)path content:(NSObject *)content {
     return [self writeFileAtPath:path content:content error:nil];
 }
 
 
-+(BOOL)writeFileAtPath:(NSString *)path content:(NSObject *)content error:(NSError **)error
-{
-    if(content == nil)
-    {
++ (BOOL)writeFileAtPath:(NSString *)path content:(NSObject *)content error:(NSError **)error {
+    if (content == nil) {
         [NSException raise:@"Invalid content" format:@"content can't be nil."];
     }
 
@@ -1097,73 +940,47 @@
 
     NSString *absolutePath = [self absolutePath:path];
 
-    if([content isKindOfClass:[NSMutableArray class]])
-    {
+    if ([content isKindOfClass:[NSMutableArray class]]) {
         [((NSMutableArray *)content) writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[NSArray class]])
-    {
+    } else if ([content isKindOfClass:[NSArray class]]) {
         [((NSArray *)content) writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[NSMutableData class]])
-    {
+    } else if ([content isKindOfClass:[NSMutableData class]]) {
         [((NSMutableData *)content) writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[NSData class]])
-    {
+    } else if ([content isKindOfClass:[NSData class]]) {
         [((NSData *)content) writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[NSMutableDictionary class]])
-    {
+    } else if ([content isKindOfClass:[NSMutableDictionary class]]) {
         [((NSMutableDictionary *)content) writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[NSDictionary class]])
-    {
+    } else if ([content isKindOfClass:[NSDictionary class]]) {
         [((NSDictionary *)content) writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[NSJSONSerialization class]])
-    {
+    } else if ([content isKindOfClass:[NSJSONSerialization class]]) {
         [((NSDictionary *)content) writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[NSMutableString class]])
-    {
+    } else if ([content isKindOfClass:[NSMutableString class]]) {
         [[((NSString *)content) dataUsingEncoding:NSUTF8StringEncoding] writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[NSString class]])
-    {
+    } else if ([content isKindOfClass:[NSString class]]) {
         [[((NSString *)content) dataUsingEncoding:NSUTF8StringEncoding] writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[UIImage class]])
-    {
+    } else if ([content isKindOfClass:[UIImage class]]) {
         [UIImagePNGRepresentation((UIImage *)content) writeToFile:absolutePath atomically:YES];
-    }
-    else if([content isKindOfClass:[UIImageView class]])
-    {
+    } else if ([content isKindOfClass:[UIImageView class]]) {
         return [self writeFileAtPath:absolutePath content:((UIImageView *)content).image error:error];
-    }
-    else if([content conformsToProtocol:@protocol(NSCoding)])
-    {
+    } else if ([content conformsToProtocol:@protocol(NSCoding)]) {
         [NSKeyedArchiver archiveRootObject:content toFile:absolutePath];
-    }
-    else {
+    } else {
         [NSException raise:@"Invalid content type" format:@"content of type %@ is not handled.", NSStringFromClass([content class])];
 
         return NO;
     }
-    
+
     return YES;
 }
 
 
-+(NSDictionary *)metadataOfImageAtPath:(NSString *)path
-{
-    if([self isFileItemAtPath:path])
-    {
++ (NSDictionary *)metadataOfImageAtPath:(NSString *)path {
+    if ([self isFileItemAtPath:path]) {
         //http://blog.depicus.com/getting-exif-data-from-images-on-ios/
 
-        NSURL *url = [self urlForItemAtPath:path];
+        NSURL *          url       = [self urlForItemAtPath:path];
         CGImageSourceRef sourceRef = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
-        NSDictionary *metadata = (NSDictionary *)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL));
+        NSDictionary *   metadata  = (NSDictionary *)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL));
 
         return metadata;
     }
@@ -1172,12 +989,10 @@
 }
 
 
-+(NSDictionary *)exifDataOfImageAtPath:(NSString *)path
-{
++ (NSDictionary *)exifDataOfImageAtPath:(NSString *)path {
     NSDictionary *metadata = [self metadataOfImageAtPath:path];
 
-    if(metadata)
-    {
+    if (metadata) {
         return [metadata objectForKey:(NSString *)kCGImagePropertyExifDictionary];
     }
 
@@ -1185,12 +1000,10 @@
 }
 
 
-+(NSDictionary *)tiffDataOfImageAtPath:(NSString *)path
-{
++ (NSDictionary *)tiffDataOfImageAtPath:(NSString *)path {
     NSDictionary *metadata = [self metadataOfImageAtPath:path];
 
-    if(metadata)
-    {
+    if (metadata) {
         return [metadata objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];
     }
 
@@ -1198,26 +1011,23 @@
 }
 
 
-+(NSDictionary *)xattrOfItemAtPath:(NSString *)path
-{
++ (NSDictionary *)xattrOfItemAtPath:(NSString *)path {
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
 
     const char *upath = [path UTF8String];
 
     ssize_t ukeysSize = listxattr(upath, NULL, 0, 0);
 
-    if( ukeysSize > 0 )
-    {
+    if (ukeysSize > 0) {
         char *ukeys = malloc(ukeysSize);
 
         ukeysSize = listxattr(upath, ukeys, ukeysSize, 0);
 
         NSUInteger keyOffset = 0;
-        NSString *key;
-        NSString *value;
+        NSString * key;
+        NSString * value;
 
-        while(keyOffset < ukeysSize)
-        {
+        while (keyOffset < ukeysSize) {
             key = [NSString stringWithUTF8String:(keyOffset + ukeys)];
             keyOffset += ([key length] + 1);
 
@@ -1232,30 +1042,24 @@
 }
 
 
-+(NSString *)xattrOfItemAtPath:(NSString *)path getValueForKey:(NSString *)key
-{
++ (NSString *)xattrOfItemAtPath:(NSString *)path getValueForKey:(NSString *)key {
     NSString *value = nil;
 
-    const char *ukey = [key UTF8String];
+    const char *ukey  = [key UTF8String];
     const char *upath = [path UTF8String];
 
     ssize_t uvalueSize = getxattr(upath, ukey, NULL, 0, 0, 0);
 
-    if( uvalueSize > -1 )
-    {
-        if( uvalueSize == 0 )
-        {
+    if (uvalueSize > -1) {
+        if (uvalueSize == 0) {
             value = @"";
-        }
-        else {
-
+        } else {
             char *uvalue = malloc(uvalueSize);
 
-            if( uvalue )
-            {
+            if (uvalue) {
                 getxattr(upath, ukey, uvalue, uvalueSize, 0, 0);
                 uvalue[uvalueSize] = '\0';
-                value = [NSString stringWithUTF8String:uvalue];
+                value              = [NSString stringWithUTF8String:uvalue];
                 free(uvalue);
             }
         }
@@ -1265,24 +1069,20 @@
 }
 
 
-+(BOOL)xattrOfItemAtPath:(NSString *)path hasValueForKey:(NSString *)key
-{
++ (BOOL)xattrOfItemAtPath:(NSString *)path hasValueForKey:(NSString *)key {
     return ([self xattrOfItemAtPath:path getValueForKey:key] != nil);
 }
 
 
-+(BOOL)xattrOfItemAtPath:(NSString *)path removeValueForKey:(NSString *)key
-{
++ (BOOL)xattrOfItemAtPath:(NSString *)path removeValueForKey:(NSString *)key {
     int result = removexattr([path UTF8String], [key UTF8String], 0);
 
     return (result == 0);
 }
 
 
-+(BOOL)xattrOfItemAtPath:(NSString *)path setValue:(NSString *)value forKey:(NSString *)key
-{
-    if(value == nil)
-    {
++ (BOOL)xattrOfItemAtPath:(NSString *)path setValue:(NSString *)value forKey:(NSString *)key {
+    if (value == nil) {
         return NO;
     }
 
@@ -1300,29 +1100,29 @@
     return [filePath lastPathComponent];
 }
 
-NSString * ExtractFileNameWithoutExtension(const char *filePath, BOOL copy) {
+NSString *ExtractFileNameWithoutExtension(const char *filePath, BOOL copy) {
     if (filePath == NULL) {
         return nil;
     }
-    
+
     char *lastSlash = NULL;
-    char *lastDot = NULL;
-    
+    char *lastDot   = NULL;
+
     char *p = (char *)filePath;
-    
+
     while (*p != '\0') {
         if (*p == '/') {
             lastSlash = p;
         } else if (*p == '.') {
             lastDot = p;
         }
-        
+
         p++;
     }
-    
-    char *subStr;
+
+    char *     subStr;
     NSUInteger subLen;
-    
+
     if (lastSlash) {
         if (lastDot) {
             // lastSlash -> lastDot
@@ -1344,7 +1144,7 @@ NSString * ExtractFileNameWithoutExtension(const char *filePath, BOOL copy) {
             subLen = (NSUInteger)(p - subStr);
         }
     }
-    
+
     if (copy) {
         return [[NSString alloc] initWithBytes:subStr
                                         length:subLen
@@ -1353,7 +1153,7 @@ NSString * ExtractFileNameWithoutExtension(const char *filePath, BOOL copy) {
         // We can take advantage of the fact that __FILE__ is a string literal.
         // Specifically, we don't need to waste time copying the string.
         // We can just tell NSString to point to a range within the string literal.
-        
+
         return [[NSString alloc] initWithBytesNoCopy:subStr
                                               length:subLen
                                             encoding:NSUTF8StringEncoding
@@ -1361,43 +1161,42 @@ NSString * ExtractFileNameWithoutExtension(const char *filePath, BOOL copy) {
     }
 }
 
-+ (NSArray *)sortedLogFilePathsByCreateDate:(NSArray <NSString *> *)unsortedPath {
-    return [unsortedPath sortedArrayUsingComparator:^NSComparisonResult(NSString *  _Nonnull first, NSString *  _Nonnull second) {
-        NSDate *us = [MMFileManager creationDateOfItemAtPath:first];
++ (NSArray *)sortedLogFilePathsByCreateDate:(NSArray<NSString *> *)unsortedPath {
+    return [unsortedPath sortedArrayUsingComparator:^NSComparisonResult(NSString *_Nonnull first, NSString *_Nonnull second) {
+        NSDate *us   = [MMFileManager creationDateOfItemAtPath:first];
         NSDate *them = [MMFileManager creationDateOfItemAtPath:second];
-        
+
         NSComparisonResult result = [us compare:them];
-        
+
         if (result == NSOrderedAscending) {
             return NSOrderedAscending;
         }
-        
+
         if (result == NSOrderedDescending) {
             return NSOrderedDescending;
         }
-        
+
         return NSOrderedSame;
     }];
 }
 
 + (NSArray *)sortedLogFilePathsByModificationDate:(NSArray<NSString *> *)unsortedPath {
-    return [unsortedPath sortedArrayUsingComparator:^NSComparisonResult(NSString *  _Nonnull first, NSString *  _Nonnull second) {
-        NSDate *us = [MMFileManager modificationDateOfItemAtPath:first];
+    return [unsortedPath sortedArrayUsingComparator:^NSComparisonResult(NSString *_Nonnull first, NSString *_Nonnull second) {
+        NSDate *us   = [MMFileManager modificationDateOfItemAtPath:first];
         NSDate *them = [MMFileManager modificationDateOfItemAtPath:second];
-        
+
         NSComparisonResult result = [us compare:them];
-        
+
         if (result == NSOrderedAscending) {
             return NSOrderedAscending;
         }
-        
+
         if (result == NSOrderedDescending) {
             return NSOrderedDescending;
         }
-        
+
         return NSOrderedSame;
     }];
 }
 
 @end
-

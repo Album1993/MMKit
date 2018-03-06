@@ -8,6 +8,7 @@
 
 #import "MMPath.h"
 
+
 @implementation MMPath
 
 + (NSString *)home {
@@ -25,15 +26,13 @@
 
 + (NSString *)caches {
     return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    
 }
 
 + (NSString *)temporary {
     return NSTemporaryDirectory();
 }
 
-+(NSString *)mainBundle
-{
++ (NSString *)mainBundle {
     return [NSBundle mainBundle].resourcePath;
 }
 

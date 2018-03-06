@@ -10,7 +10,7 @@
 #define MMDebug_h
 
 #ifdef DEBUG
-#define MMLog(format, ...) NSLog(format, ## __VA_ARGS__)
+#define MMLog(format, ...) NSLog(format, ##__VA_ARGS__)
 #else
 #define MMLog(format, ...)
 #endif

@@ -8,38 +8,37 @@
 
 #import "NSString+MMString.h"
 
+
 @implementation NSString (MMString)
 
 - (NSString *)mm_appendJson:(NSString *)string {
-    NSString *jsonString=@"{";
-    NSString *key;
-    NSError * error ;
-    NSDictionary * jsonData1 = [self mm_transJson:error];
-    
+    NSString *    jsonString = @"{";
+    NSString *    key;
+    NSError *     error;
+    NSDictionary *jsonData1 = [self mm_transJson:error];
+
     if (error) {
 #if DEBUG
-        NSLog(@"%@",[error localizedDescription]);
+        NSLog(@"%@", [error localizedDescription]);
 #endif
     }
-    NSDictionary * jsonData2 = [string mm_transJson:error];
+    NSDictionary *jsonData2 = [string mm_transJson:error];
     if (error) {
 #if DEBUG
-        NSLog(@"%@",[error localizedDescription]);
+        NSLog(@"%@", [error localizedDescription]);
 #endif
     }
-    
-    for(key in [jsonData1 allKeys])
-    {
-        jsonString = [jsonString stringByAppendingFormat:@"\"%@\":\"%@\";",key,[jsonData1 objectForKey:key]];
+
+    for (key in [jsonData1 allKeys]) {
+        jsonString = [jsonString stringByAppendingFormat:@"\"%@\":\"%@\";", key, [jsonData1 objectForKey:key]];
     }
-    
-    for(key in [jsonData2 allKeys])
-    {
-        jsonString = [jsonString stringByAppendingFormat:@"\"%@\":\"%@\";",key,[jsonData2 objectForKey:key]];
+
+    for (key in [jsonData2 allKeys]) {
+        jsonString = [jsonString stringByAppendingFormat:@"\"%@\":\"%@\";", key, [jsonData2 objectForKey:key]];
     }
     jsonString = [jsonString substringToIndex:[jsonString length] - 1];
     jsonString = [jsonString stringByAppendingString:@"}"];
-    
+
     return jsonString;
 }
 
@@ -49,11 +48,10 @@
 }
 
 - (BOOL)mm_isEmptyString {
-    if([self length] == 0) { //string isempty or nil
+    if ([self length] == 0) { //string isempty or nil
         return YES;
-    }
-    else if([[self stringByTrimmingCharactersInSet:[NSCharacterSet
-                                                     whitespaceCharacterSet]]length] == 0) {
+    } else if ([[self stringByTrimmingCharactersInSet:[NSCharacterSet
+                                                          whitespaceCharacterSet]] length] == 0) {
         //string is all whitespace
         return YES;
     }
@@ -61,7 +59,7 @@
 }
 
 - (id)mm_jsonObject:(NSError *)error {
-    id jsonobject = [NSJSONSerialization  JSONObjectWithData:[self dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+    id jsonobject = [NSJSONSerialization JSONObjectWithData:[self dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
     return jsonobject;
 }
 

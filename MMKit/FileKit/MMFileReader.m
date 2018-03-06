@@ -5,6 +5,8 @@
 //
 
 #import "MMFileReader.h"
+
+
 @interface MMFileReader () <NSStreamDelegate>
 
 // The encoding we're expecting in the file
@@ -18,10 +20,11 @@
 
 @end
 
+
 @implementation MMFileReader
 
-@synthesize encoding = _encoding;
-@synthesize stringBuffer = _stringBuffer;
+@synthesize encoding      = _encoding;
+@synthesize stringBuffer  = _stringBuffer;
 @synthesize lineProcessor = _lineProcessor;
 
 // The maximum amount of data to try to read from the stream each time
@@ -32,8 +35,7 @@ unsigned int const TRY_TO_READ = 1024;
 uint8_t buf[TRY_TO_READ];
 
 // Start processing the file at "path".
-- (void)startProcessing:(NSString *)path
-{
+- (void)startProcessing:(NSString *)path {
     // Ensure we have a path.
     if (!path) {
         NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileNoSuchFileError userInfo:nil];
@@ -50,24 +52,22 @@ uint8_t buf[TRY_TO_READ];
     [instream setDelegate:self];
     [instream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [instream open];
-    
+
     // Check for any errors at this point.
     if ([instream streamStatus] == NSStreamStatusError) {
         self.lineProcessor(nil, [instream streamError]);
-        return;        
+        return;
     }
 }
 
 // Close the stream.
-- (void)closeStream:(NSStream *)theStream
-{
+- (void)closeStream:(NSStream *)theStream {
     [theStream close];
     [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 // Read some data from the stream.
-- (void)readDataFromStream:(NSStream *)theStream
-{
+- (void)readDataFromStream:(NSStream *)theStream {
     unsigned int len = [(NSInputStream *)theStream read:buf maxLength:TRY_TO_READ];
     if (len) {
         // We read something.
@@ -103,12 +103,11 @@ uint8_t buf[TRY_TO_READ];
         }
         // Leave any remaining data in the buffer.
         self.stringBuffer = lineToProcess;
-    }    
+    }
 }
 
 // NSStreamDelegate method that is called when events happen on the stream.
-- (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
-{
+- (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
     if (streamEvent & NSStreamEventErrorOccurred) {
         self.lineProcessor(nil, [theStream streamError]);
         return;
@@ -129,9 +128,8 @@ uint8_t buf[TRY_TO_READ];
 
 // Process the file identified by path calling block with each line to be processed or any
 // error. Either line or error will be non nil.
-- (void)processFile:(NSString *)path withEncoding:(NSStringEncoding)fileEncoding usingBlock:(void (^)(NSString *line, NSError *error))block
-{
-    self.encoding = fileEncoding;
+- (void)processFile:(NSString *)path withEncoding:(NSStringEncoding)fileEncoding usingBlock:(void (^)(NSString *line, NSError *error))block {
+    self.encoding      = fileEncoding;
     self.lineProcessor = block;
     [self startProcessing:path];
 }

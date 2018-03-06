@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface MMPath : NSObject
 
 // 获取沙盒主目录路径
@@ -17,16 +18,16 @@
 + (NSString *)document;
 
 // 获取Library的目录路径
-+ (NSString * )library;
++ (NSString *)library;
 
 // 获取Caches目录路径
 + (NSString *)caches;
 
 // 获取tmp目录路径
-+(NSString *)temporary;
++ (NSString *)temporary;
 
 // Bundle
-+(NSString *)mainBundle;
++ (NSString *)mainBundle;
 
 
 @end

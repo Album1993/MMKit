@@ -12,10 +12,11 @@
 #import "MMFileManager.h"
 
 #if TARGET_IPHONE_SIMULATOR
-static NSString * const kDDXAttrArchivedName = @"archived";
+static NSString *const kDDXAttrArchivedName = @"archived";
 #else
-static NSString * const kDDXAttrArchivedName = @"lumberjack.log.archived";
+static NSString *const kDDXAttrArchivedName = @"lumberjack.log.archived";
 #endif
+
 
 @implementation MMFileArchieve
 
@@ -238,7 +239,6 @@ static NSString * const kDDXAttrArchivedName = @"lumberjack.log.archived";
 //        [self reset];
 //    }
 //}
-
 
 
 @end

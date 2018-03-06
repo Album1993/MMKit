@@ -14,6 +14,7 @@
 
 @end
 
+
 @implementation DeviceInformationTests
 
 - (void)setUp {
@@ -29,8 +30,8 @@
 - (void)testExample {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
-    NSLog(@"%@",[MMDeviceInformation appVersion]);
-   XCTAssertTrue([[MMDeviceInformation appVersion] isEqualToString:@"1.0.1"]);
+    NSLog(@"%@", [MMDeviceInformation appVersion]);
+    XCTAssertTrue([[MMDeviceInformation appVersion] isEqualToString:@"1.0.1"]);
 }
 
 - (void)testPerformanceExample {

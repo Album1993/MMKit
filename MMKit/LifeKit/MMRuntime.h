@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface MMRuntime : NSObject
 
 // 用来检测是否注册过某个类
-+ (BOOL)isRegisteredClass:(Class)class;
++ (BOOL)isRegisteredClass:(Class) class;
 
 // 用来打印所有的类,返回的是class 对象
 + (NSArray *)registeredClasses;
